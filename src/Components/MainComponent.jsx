@@ -4,17 +4,18 @@ import PropTypes from 'prop-types';
 import SharedListComponent from './SharedListComponent';
 import HeaderComponent from './HeaderComponent';
 
-import { fetchPaymentAPI } from '../Actions/MainAction';
+import { fetchPaymentAPI, fetchPaymentAPI_Leases } from '../Actions/MainAction';
 
 class MainComponent extends Component {
 
     componentDidMount() {
         this.props.fetchPaymentAPI();
+        this.props.fetchPaymentLease();
     }
 
     render() {
 
-        const { isLoading, isError, data } = this.props;
+        const { isLoading, isError, paymentdata, leasedata  } = this.props;
 
         return (
             <div className="container">
@@ -26,7 +27,7 @@ class MainComponent extends Component {
 
 
                 <SharedListComponent
-                    ListData={[data]}
+                    ListData={[paymentdata]}
                     HeaderName={{ id: 'Customer Id', start_date: 'Start Date', rent: 'Rent', payment_day: 'Payment Day' }}
                     ShowPagination={false}
                     MinRows={0}
@@ -36,8 +37,8 @@ class MainComponent extends Component {
 
 
                 <SharedListComponent
-                    ListData={[data]}
-                    HeaderName={{ id: 'Customer Id', start_date: 'Start Date', rent: 'Rent', payment_day: 'Payment Day' }}
+                    ListData={leasedata}
+                    HeaderName={{ id: 'Customer Id', tenant: 'Teanant Name' }}
                     ShowPagination={false}
                     MinRows={0}
                 />
@@ -47,7 +48,11 @@ class MainComponent extends Component {
 }
 
 MainComponent.propTypes = {
-    userDetails: PropTypes.object
+    paymentdata: PropTypes.object,
+    leasedata: PropTypes.array,
+    isLoading: PropTypes.bool,
+    isError: PropTypes.bool,
+    errorMessage: PropTypes.string
 };
 
 const mapStateToProps = (state) => {
@@ -55,14 +60,15 @@ const mapStateToProps = (state) => {
         isLoading: state.MainReducer.isLoading,
         isError: state.MainReducer.isError,
         errorMessage: state.MainReducer.errorMessage,
-        data: state.MainReducer.data,
-        columns: state.MainReducer.columns
+        paymentdata: state.MainReducer.data,
+        leasedata: state.MainReducer.leasedata
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchPaymentAPI: () => dispatch(fetchPaymentAPI())
+        fetchPaymentAPI: () => dispatch(fetchPaymentAPI()),
+        fetchPaymentLease: () => dispatch(fetchPaymentAPI_Leases())
     };
 };
 

@@ -1,7 +1,8 @@
 import {
 	FETCH_PAYMENTS,
 	FETCH_PAYMENTS_SUCCESS,
-	FETCH_PAYMENTS_ERROR
+	FETCH_PAYMENTS_ERROR,
+	FETCH_PAYMENTS_SUCCESS_LEASE
 } from '../Constants/Constants';
 
 
@@ -10,6 +11,7 @@ const INITIAL_STATE = {
 	isError: false,
 	errorMessage: '',
 	data: [],
+	leasedata: [],
 	columns: []
 };
 
@@ -28,6 +30,14 @@ export default (state = INITIAL_STATE, action) => {
 				isError: false,
 				data: action.data,
 				columns: action.data
+			};
+			case FETCH_PAYMENTS_SUCCESS_LEASE:
+			console.log(action)
+			return {
+				...state,
+				isLoading: false,
+				isError: false,
+				leasedata: action.leasedata
 			};
 		case FETCH_PAYMENTS_ERROR:
 			return {

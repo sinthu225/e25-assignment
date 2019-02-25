@@ -1,7 +1,8 @@
 import {
     FETCH_PAYMENTS,
     FETCH_PAYMENTS_SUCCESS,
-    FETCH_PAYMENTS_ERROR
+    FETCH_PAYMENTS_ERROR,
+    FETCH_PAYMENTS_SUCCESS_LEASE
 } from '../Constants/Constants';
 
 import axios from 'axios';
@@ -10,6 +11,8 @@ import axios from 'axios';
 export const fetchPaymentAction = () => ({ type: FETCH_PAYMENTS });
 
 export const fetchPaymentSuccessAction = (data) => ({ type: FETCH_PAYMENTS_SUCCESS, data });
+
+export const fetchLeaseSuccessAction = (leasedata) => ({ type: FETCH_PAYMENTS_SUCCESS_LEASE, leasedata });
 
 export const fetchPaymentErrorAction = (error) => ({ type: FETCH_PAYMENTS_ERROR, error });
 
@@ -33,7 +36,7 @@ export const fetchPaymentAPI_Leases = () => {
 
         axios.get('https://hiring-task-api.herokuapp.com/v1/leases/')
         .then(response => {
-            dispatch(fetchPaymentSuccessAction(response.data));
+            dispatch(fetchLeaseSuccessAction(response.data));
         })
         .catch(error => {
             dispatch(fetchPaymentErrorAction(error));
